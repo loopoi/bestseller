@@ -1,0 +1,10 @@
+.a{
+    border-bottom: 3px solid black;
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 15px;
+    padding: 1px;
+    line-height:1.5em;
+}
+
+.a:hover{
+    border-bottom-color: darkgray;
+}
