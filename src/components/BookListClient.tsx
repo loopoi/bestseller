@@ -89,8 +89,8 @@ function getRandomBorderRadius(){
     return `0px 0px ${blRadius}px ${brRadius}px / 0px 0px ${brRadius}px ${blRadius}px`
 }
 
-export default function BookListClient({datas}: Book[]) {
-    const [radiusList, setRadiusList] = useState([]);
+export default function BookListClient({datas}: {datas: Book[]}) {
+    const [radiusList, setRadiusList] = useState<string[]>([]);
     const [flag, setFlag] = useState(false);
 
     useEffect(() => {

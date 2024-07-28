@@ -39,7 +39,7 @@ export interface BestSellerList {
     updated: string;
 }
 
-export default function BestSellerListClient({datas}: BestSellerList[]) {
+export default function BestSellerListClient({datas}: {datas:BestSellerList[]}) {
     return (
         <div className="flex flex-wrap gap-2">
             {datas.map(data => (

@@ -1,12 +1,12 @@
 import React from 'react';
 import BookListClient from "@/components/BookListClient";
 
-async function getBestSellerList(list_name_encoded) {
+export async function getBestSellerList(list_name_encoded: string) {
     const response = await fetch(`https://books-api.nomadcoders.workers.dev/list?name=${list_name_encoded}`);
-    const datas = await response.json();
-    return datas.results.books;
+    return response.json();
+
 }
-export default async function BookList({list_name_encoded}: string) {
+export default async function BookList({list_name_encoded}: { list_name_encoded: string }) {
     const datas = await getBestSellerList(list_name_encoded)
-    return <BookListClient datas={datas}/>;
+    return <BookListClient datas={datas.results.books}/>;
 }
