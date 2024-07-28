@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from "styled-components";
 import Link from "next/link";
 import {motion} from "framer-motion";
@@ -71,28 +71,40 @@ const btnVariants = {
     }
 }
 
-const Card = styled.div.attrs<{blRadius:number, brRadius:number}>(({blRadius, brRadius}) => ({
-    style: {
-        borderRadius: `0px 0px ${blRadius}px ${brRadius}px / 0px 0px ${brRadius}px ${blRadius}px`
-    }
-}))`
+
+const Card = styled.div`
     display: flex;
     flex-direction: column;
-    box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     padding-bottom: 2rem;
     border-width: 1px;
     border-style: solid;
     border-color: #D1D5DB;
 `;
 
+function getRandomBorderRadius(){
+    const blRadius = Math.floor(Math.random() * 50);
+    const brRadius = Math.floor(Math.random() * 102);
+
+    return `0px 0px ${blRadius}px ${brRadius}px / 0px 0px ${brRadius}px ${blRadius}px`
+}
+
 export default function BookListClient({datas}: Book[]) {
+    const [radiusList, setRadiusList] = useState([]);
+    const [flag, setFlag] = useState(false);
+
+    useEffect(() => {
+        if (!flag){
+            const newRadiusList = datas.map(()=>getRandomBorderRadius());
+            setRadiusList(newRadiusList);
+            setFlag(true);
+        }
+    }, [datas]);
+
     return (
         <div className={"grid grid-cols-4 gap-10 m-10 p-10"}>
-            {datas.map(data=>{
-                const blRadius = Math.floor(Math.random() * 50);
-                const brRadius = Math.floor(Math.random() * 101);
-                return (
-                <Card key={data.rank} blRadius={blRadius} brRadius={brRadius}>
+            {datas.map((data, index)=>(
+                <Card key={data.rank} style={{ borderRadius: radiusList[index] }}>
                     <Img src={data.book_image} alt={data.description}/>
                     <div className={"w-11/12 mx-auto"}>
                         <p className={"text-lg font-bold my-3"}>{data.title}</p>
@@ -111,7 +123,7 @@ export default function BookListClient({datas}: Book[]) {
                     </div>
 
                 </Card>
-                )})}
+                ))}
         </div>
     );
 }
